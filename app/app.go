@@ -25,6 +25,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/slashing"
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	"github.com/cosmos/cosmos-sdk/x/supply"
+//	"github.com/PaddyMc/poa/x/poa"
 )
 
 const appName = "app"
@@ -52,7 +53,7 @@ var (
 		params.AppModuleBasic{},
 		slashing.AppModuleBasic{},
 		supply.AppModuleBasic{},
-		// TODO: Add your module(s) AppModuleBasic
+//		poa.AppModule{},
 	)
 
 	// module account permissions

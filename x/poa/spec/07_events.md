@@ -1,8 +1,8 @@
-## Events
+# Events
 
 The `poa` module emits the following events:
 
-### **EndBlock**
+## EndBlocker
 
 ---
 
@@ -13,7 +13,7 @@ The `poa` module emits the following events:
 | delete_validator	    | validator             | {validatorAddress}        |
 | vote_validator	      | sender                | {senderAddress}	          |
 
-### **Handlers**
+## Handlers
 
 ---
 

@@ -6,52 +6,59 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/params"
 )
 
-// Default parameter namespace
+// Poa params default values
 const (
-	DefaultParamspace = ModuleName
-	// TODO: Define your default parameters
+	// Epoch reflects number of blocks until voting resets
+	DefaultEpoch uint16 = 30000
+
+	// Default maximum number of bonded validators
+	DefaultMaxValidators uint16 = 100
 )
 
-// Parameter store keys
+// nolint - Keys for parameter access
 var (
-	// TODO: Define your keys for the parameter store
-	// KeyParamName          = []byte("ParamName")
+	KeyEpoch		= []byte("Epoch")
+	KeyMaxValidators	= []byte("MaxValidators")
 )
 
-// ParamKeyTable for poa module
-func ParamKeyTable() params.KeyTable {
-	return params.NewKeyTable().RegisterParamSet(&Params{})
-}
+var _ params.ParamSet = (*Params)(nil)
 
-// Params - used for initializing default parameter for poa at genesis
+// Params defines the high level settings for poa module
 type Params struct {
-	// TODO: Add your Paramaters to the Paramter struct
-	// KeyParamName string `json:"key_param_name"`
+	Epoch		    uint16	  `json:"epoch" yaml:"epoch"`
+	MaxValidators       uint16        `json:"max_validators" yaml:"max_validators"`               // maximum number of validators (max uint16 = 65535)
 }
 
-// NewParams creates a new Params object
-func NewParams(/* TODO: Pass in the paramters*/) Params {
+// NewParams creates a new Params instance
+func NewParams(epoch uint16, maxValidators uint16) Params {
 	return Params{
-		// TODO: Create your Params Type
+		Epoch:		     epoch,
+		MaxValidators:       maxValidators,
 	}
 }
 
-// String implements the stringer interface for Params
-func (p Params) String() string {
-	return fmt.Sprintf(`
-	// TODO: Return all the params as a string
-	`, )
-}
-
-// ParamSetPairs - Implements params.ParamSet
+// Implements params.ParamSet
 func (p *Params) ParamSetPairs() params.ParamSetPairs {
 	return params.ParamSetPairs{
-		// TODO: Pair your key with the param
-		// params.NewParamSetPair(KeyParamName, &p.ParamName),
+		params.NewParamSetPair(KeyEpoch, &p.Epoch, validateInt),
+		params.NewParamSetPair(KeyMaxValidators, &p.MaxValidators, validateInt),
 	}
 }
 
-// DefaultParams defines the parameters for this module
+// DefaultParams returns a default set of parameters.
 func DefaultParams() Params {
-	return NewParams( /* TODO: Pass in your default Params */ )
+	return NewParams(DefaultEpoch, DefaultMaxValidators)
+}
+
+func validateInt(i interface{}) error {
+	v, ok := i.(uint16)
+	if !ok {
+		return fmt.Errorf("invalid parameter type: %T", i)
+	}
+
+	if v == 0 {
+		return fmt.Errorf("max validators must be positive: %d", v)
+	}
+
+	return nil
 }

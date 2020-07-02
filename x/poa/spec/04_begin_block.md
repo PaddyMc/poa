@@ -1,8 +1,8 @@
-## Begin-Block
+# Begin-Block
 
-At each ABCI `BeginBlock` call, the operations to update proposal sets are executed.
+At each ABCI `BeginBlock` call, the operations to update proposal are executed.
 
-### Proposal changes
+## Proposal changes
 
 ---
 

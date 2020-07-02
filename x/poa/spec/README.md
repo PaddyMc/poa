@@ -21,10 +21,23 @@ To allow for easy development and avoid common pitfalls of defining a new algori
 ## Contents
 
 1. **[State](01_state.md)**
+    - [Params](01_state.md#params)
+    - [Validator](01_state.md#validator)
+    - [Proposal](01_state.md#proposal)
 1. **[State Transitions](02_state_transitions.md)**
+    - [Validator](02_state_transitions.md#validator)
+    - [Proposal](02_state_transitions.md#proposal)
 1. **[Messages](03_messages.md)**
+    - [MsgCreateValidator](03_messages.md#MsgCreateValidator)
+    - [MsgEditValidator](03_messages.md#MsgEditValidator)
+    - [MsgRemoveValidator](03_messages.md#MsgRemoveValidator)
+    - [MsgCastVote](03_messages.md#MsgCastVote)
 1. **[Begin-Block](04_begin_block.md)**
+    - [Proposal changes](04_begin_block#Proposal-changes)
 1. **[End-Block](05_end_block.md)**
-1. **[05_hooks](06_hooks.md)**
+    - [Validator set changes](04_begin_block#Validator-set-changes)
+1. **[Hooks](06_hooks.md)**
 1. **[Events](07_events.md)**
+   - [EndBlocker](07_events.md#endblocker)
+   - [Handlers](07_events.md#handlers)
 1. **[Parameters](08_parameters.md)**

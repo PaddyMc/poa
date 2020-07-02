@@ -1,11 +1,10 @@
 package keeper
-/*
-// TODO: Define if your module needs Parameters, if not this can be deleted
 
 import (
-	"time"
+	//"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/x/params"
 	"github.com/PaddyMc/poa/x/poa/types"
 )
 
@@ -19,4 +18,9 @@ func (k Keeper) GetParams(ctx sdk.Context) (params types.Params) {
 func (k Keeper) SetParams(ctx sdk.Context, params types.Params) {
 	k.paramspace.SetParamSet(ctx, &params)
 }
-*/
+
+// ParamTable for poa module
+func ParamKeyTable() params.KeyTable {
+	return params.NewKeyTable().RegisterParamSet(&types.Params{})
+}
+

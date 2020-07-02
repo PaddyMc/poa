@@ -5,43 +5,42 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-// TODO: Describe your actions, these will implment the interface of `sdk.Msg`
-/*
-// verify interface at compile time
-var _ sdk.Msg = &Msg<Action>{}
+//const RouterKey = ModuleName
 
-// Msg<Action> - struct for unjailing jailed validator
-type Msg<Action> struct {
-	ValidatorAddr sdk.ValAddress `json:"address" yaml:"address"` // address of the validator operator
-}
+// Route should return the name of the module
+func (msg MsgCreateValidator) Route() string { return ModuleName }
 
-// NewMsg<Action> creates a new Msg<Action> instance
-func NewMsg<Action>(validatorAddr sdk.ValAddress) Msg<Action> {
-	return Msg<Action>{
-		ValidatorAddr: validatorAddr,
-	}
-}
+// Type should return the action
+func (msg MsgCreateValidator) Type() string { return "create_validator" }
 
-const <action>Const = "<action>"
-
-// nolint
-func (msg Msg<Action>) Route() string { return RouterKey }
-func (msg Msg<Action>) Type() string  { return <action>Const }
-func (msg Msg<Action>) GetSigners() []sdk.AccAddress {
-	return []sdk.AccAddress{sdk.AccAddress(msg.ValidatorAddr)}
-}
-
-// GetSignBytes gets the bytes for the message signer to sign on
-func (msg Msg<Action>) GetSignBytes() []byte {
-	bz := ModuleCdc.MustMarshalJSON(msg)
-	return sdk.MustSortJSON(bz)
-}
-
-// ValidateBasic validity check for the AnteHandler
-func (msg Msg<Action>) ValidateBasic() error {
-	if msg.ValidatorAddr.Empty() {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "missing validator address")
+// ValidateBasic runs stateless checks on the message
+func (msg MsgCreateValidator) ValidateBasic() error {
+	if len(msg.Name) == 0 {
+		return sdkerrors.Wrap(sdkerrors.ErrUnknownRequest, "Name and/or Value cannot be empty")
 	}
 	return nil
 }
-*/
+
+// GetSignBytes encodes the message for signing
+func (msg MsgCreateValidator) GetSignBytes() []byte {
+	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(msg))
+}
+
+// GetSigners defines whose signature is required
+func (msg MsgCreateValidator) GetSigners() []sdk.AccAddress {
+	return []sdk.AccAddress{msg.Owner}
+}
+
+// MsgCreateValidator defines a SetName message
+type MsgCreateValidator struct {
+	Name  string         `json:"name"`
+	Owner sdk.AccAddress `json:"owner"`
+}
+
+// NewMsgCreateValidator is a constructor function for MsgCreateValidator
+func NewMsgCreateValidator(name string, owner sdk.AccAddress) MsgCreateValidator {
+	return MsgCreateValidator{
+		Name:  name,
+		Owner: owner,
+	}
+}
