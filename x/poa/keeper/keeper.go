@@ -3,13 +3,16 @@ package keeper
 import (
 	"fmt"
 
-	"github.com/tendermint/tendermint/crypto"
+	//"github.com/tendermint/tendermint/crypto"
 	"github.com/tendermint/tendermint/libs/log"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/PaddyMc/poa/x/poa/types"
 )
+
+// Implements ValidatorSet interface
+var _ types.ValidatorSet = Keeper{}
 
 // Keeper of the poa store
 type Keeper struct {
@@ -23,7 +26,7 @@ func NewKeeper(cdc *codec.Codec, key sdk.StoreKey, paramspace types.ParamSubspac
 	keeper := Keeper{
 		storeKey:   key,
 		cdc:        cdc,
-		paramspace: paramspace.WithKeyTable(types.ParamKeyTable()),
+		paramspace: paramspace.WithKeyTable(ParamKeyTable()),
 	}
 	return keeper
 }
@@ -33,25 +36,36 @@ func (k Keeper) Logger(ctx sdk.Context) log.Logger {
 	return ctx.Logger().With("module", fmt.Sprintf("x/%s", types.ModuleName))
 }
 
-// Get returns the pubkey from the adddress-pubkey relation
-func (k Keeper) Get(ctx sdk.Context, key string) (/* TODO: Fill out this type */, error) {
-	store := ctx.KVStore(k.storeKey)
-	var item /* TODO: Fill out this type */
-	byteKey := []byte(key)
-	err := k.cdc.UnmarshalBinaryLengthPrefixed(store.Get(byteKey), &item)
-	if err != nil {
-		return nil, err
-	}
-	return item, nil
+func (k Keeper) GetValidator(ctx sdk.Context, addr sdk.ValAddress) (found bool) {
+	//store := ctx.KVStore(k.storeKey)
+	fmt.Sprintf("x/%s", types.ModuleName)
+	//value := store.Get(types.GetValidatorKey(addr))
+	//if value == nil {
+	//	return validator, false
+	//}
+
+	//// If these amino encoded bytes are in the cache, return the cached validator
+	//strValue := string(value)
+	//if val, ok := k.validatorCache[strValue]; ok {
+	//	valToReturn := val.val
+	//	// Doesn't mutate the cache's value
+	//	valToReturn.OperatorAddress = addr
+	//	return valToReturn, true
+	//}
+
+	//// amino bytes weren't found in cache, so amino unmarshal and add it to the cache
+	//validator = types.MustUnmarshalValidator(k.cdc, value)
+	//cachedVal := newCachedValidator(validator, strValue)
+	//k.validatorCache[strValue] = newCachedValidator(validator, strValue)
+	//k.validatorCacheList.PushBack(cachedVal)
+
+	//// if the cache is too big, pop off the last element from it
+	//if k.validatorCacheList.Len() > aminoCacheSize {
+	//	valToRemove := k.validatorCacheList.Remove(k.validatorCacheList.Front()).(cachedValidator)
+	//	delete(k.validatorCache, valToRemove.marshalled)
+	//}
+
+	//validator = types.MustUnmarshalValidator(k.cdc, value)
+	return true
 }
 
-func (k Keeper) set(ctx sdk.Context, key string, value /* TODO: fill out this type */ ) {
-	store := ctx.KVStore(k.storeKey)
-	bz := k.cdc.MustMarshalBinaryLengthPrefixed(value)
-	store.Set([]byte(key), bz)
-}
-
-func (k Keeper) delete(ctx sdk.Context, key string) {
-	store := ctx.KVStore(k.storeKey)
-	store.Delete([]byte(key))
-}

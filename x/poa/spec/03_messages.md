@@ -1,6 +1,8 @@
-## Messages
+# Messages
 
-### **MsgCreateValidator**
+In this section we describe the processing of the poa messages and the corresponding updates to the state. All created/modified state objects specified by each message are defined within the [state](./01_state.md) section.
+
+## **MsgCreateValidator**
 
 ---
 
@@ -22,7 +24,7 @@ This message is expected to fail if:
 
 This message creates and stores the `Validator` object at appropriate indexes. The validator then sends the MsgCastVote message for the validator.
 
-### **MsgEditValidator**
+## **MsgEditValidator**
 
 ---
 
@@ -41,11 +43,11 @@ This message is expected to fail if:
 
 This message stores the updated `Validator` object.
 
-### **MsgRemoveValidator**
+## **MsgRemoveValidator**
 
 ---
 
-The `Description` of a validator can be updated using the `MsgEditCandidacy`.
+A validator is removed using the `MsgRemoveValidator`.
 
 ```go
 type MsgRemoveValidator struct {
@@ -59,7 +61,7 @@ This message is expected to fail if:
 
 This message removes the `Validator` object.
 
-### **MsgCastVote**
+## **MsgCastVote**
 
 ---
 

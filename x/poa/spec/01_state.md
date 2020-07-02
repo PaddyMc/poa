@@ -1,6 +1,6 @@
-## State
+# State
 
-### **Params**
+## Params
 
 ---
 
@@ -10,12 +10,12 @@ Params is a module-wide configuration structure that stores system parameters an
 
 ```go
 type Params struct {
-    Epoch               uint16
-    MaxValidators       uint16
+    Epoch               uint16              // Number of block to wait until voting is reset
+    MaxValidators       uint16              // Max number of validators in the consensus
 }
 ```
 
-### **Validator**
+## Validator
 
 ---
 
@@ -34,13 +34,13 @@ Each validator's state is stored in a Validator struct:
 
 ```go
 type Validator struct {
-    OperatorAddress         sdk.ValAddress  // bech encoded in JSON
-    ConsPubKey              crypto.PubKey   // the consensus public key; bech encoded in JSON
+    OperatorAddress         sdk.ValAddress 
+    ConsPubKey              crypto.PubKey   // the consensus public key
     Status                  sdk.Status      // validator status (INTURN/NOTURN)
     WaitBlocks              int32           // wait for number of blocks before being allowed to create a new block
     Verified                bool            // has been voted to join the validator set
     Jailed                  bool
-		Description             Description
+    Description             Description
 }
 
 type Description struct {
@@ -52,7 +52,7 @@ type Description struct {
 }
 ```
 
-### Proposal
+## Proposal
 
 ---
 
@@ -64,7 +64,8 @@ Each proposal state is stored in a Proposal struct:
 
 ```go
 type Proposal struct {
-    StartBlock              uint64
-    Votes                   uint32
+    OperatorAddress         sdk.ValAddress   
+    StartBlock              uint32          // Block number the Proposal started on
+    Votes                   uint32          // Number of votes on a Proposal
 }
 ```
